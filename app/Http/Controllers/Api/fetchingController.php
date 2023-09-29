@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-
 class fetchingController extends Controller
 {
     function fetchingData(){
@@ -19,6 +16,18 @@ class fetchingController extends Controller
         // return view('fetching',['apiData' => $data['data']]);
     }
 
+    function store(Request $request){
+        $client = new Client();
+        $url = 'http://127.0.0.1:8000/api/create/product';
+        $response = $client->post($url,[
+            'form_params' => [
+                'title' => $request->title,
+                'description' => $request->description,
+            ]
+        ]);
+
+        return "create successfull";
+    }
 
     function show($id){
         $client = new Client();
@@ -27,29 +36,5 @@ class fetchingController extends Controller
         return view('single',['apiData' => $data['data']]);
     }
 
-    function api_login(Request $request){
-      
-        $client = new Client();
-
-        $email = $request->email;
-        $password = bcrypt($request->password);
-
-        $request = $client->post('http://127.0.0.1:8000/api/user/login',[
-            'form_params' => [
-                'email' => $email,
-                'password' => $password,
-            ]
-        ]);
-        $info = json_decode($request->getBody(),true);
-        $token = $info['data']['token'];
-        return $token;
-
-
-
-        
-        // $auth_login= $client->get($url,[
-        //     'headers' => ['Authorization'=>'Bearer'.$token]
-        // ]);
-        // return $info;
-    }
+   
 }
