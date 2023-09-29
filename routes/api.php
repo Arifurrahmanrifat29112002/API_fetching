@@ -24,7 +24,7 @@ Route::controller(fetchingController::class)->group(function () {
     Route::get('/fetching/data/{id}','show')->name('single.data');
 
     //login
-    Route::post('/api-app/login','api_login');
+    Route::post('/login','api_login');
 
     Route::post('/create/product','store')->name('product.create');
 
